@@ -61,11 +61,25 @@ def run_car_wash_simulation():
 
     return car_wash.cars_washed_count, car_wash.queue_sizes, car_wash.total_wait_time
 
+def plot_results(queue_lengths):
+    plt.figure(figsize=(12, 6))
+
+    # Plot queue length over time
+    plt.plot(queue_lengths, label='Queue Length', color='blue')
+    plt.xlabel('Time')
+    plt.ylabel('Current Queue Length')
+    plt.title('Current Queue Length Over Time')
+    plt.axhline(y=MAX_QUEUE_SIZE, color='red', linestyle='--', label='Max Queue Size')
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
 if __name__ == '__main__':
     total_runs = 50
     total_cars_washed_all_runs = []
     total_wait_times_all_runs = []
-    
+
     for _ in range(total_runs):
         total_cars_washed, queue_sizes, total_wait_time = run_car_wash_simulation()
         total_cars_washed_all_runs.append(total_cars_washed)
@@ -77,3 +91,9 @@ if __name__ == '__main__':
 
     print(f'Average Total Cars Washed over {total_runs} runs: {average_cars_washed}')
     print(f'Average Total Waiting Time over {total_runs} runs: {average_wait_time:.2f} time units')
+
+    # Run simulation and plot the results
+    total_cars_washed, queue_lengths, total_waiting_time = run_car_wash_simulation()
+    print(f'Total Cars Washed: {total_cars_washed}')
+    print(f'Total Waiting Time: {total_waiting_time:.2f} time units')
+    plot_results(queue_lengths)
